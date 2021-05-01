@@ -42,32 +42,34 @@ export class PortalActions {
             return;
         }
 
-        let overwriteOptions: vscode.InputBoxOptions = {
-            prompt: 'Overwrite local content (optional)',
-            placeHolder: 'true'
+        let overwriteOptionsItems: string[] = ["Yes", "No"];
+
+        let overwriteOptions: vscode.QuickPickOptions = {
+            canPickMany: false,
+            placeHolder: "Overwrite existing portal (optional)"
         };
 
-        let overwritePortal = await vscode.window.showInputBox(overwriteOptions);
+        let overwritePortal = await vscode.window.showQuickPick(overwriteOptionsItems, overwriteOptions);
 
         Terminal.RunCommand(Commands.DownloadPortal(localPortalPath, websiteId, overwritePortal));
     }
 
-    public async UploadPortal(local?:boolean){
+    public async UploadPortal(currentPortal?:boolean){
         vscode.window.showInformationMessage('Portal Helper: Upload portal');
 
         let localPortalPathOptions: vscode.InputBoxOptions = {
-            prompt: 'Enter local path from where portal will be uploaded or l for current folder',
+            prompt: 'Enter local path from where portal will be uploaded or c for current folder',
             placeHolder: 'Local path C:\\Code\\Portals\\starter-portal'
         };
 
-        let localPortalPath = !local ? await vscode.window.showInputBox(localPortalPathOptions) : 'l';
+        let localPortalPath = !currentPortal ? await vscode.window.showInputBox(localPortalPathOptions) : 'c';
 
         if (!localPortalPath) {
             vscode.window.showErrorMessage('Portal Helper: You need to provide local path for Portal to be uploaded from');
             return;
         }
 
-        if(localPortalPath === 'l' && vscode.workspace.workspaceFolders){
+        if(localPortalPath === 'c' && vscode.workspace.workspaceFolders){
             localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
         } else {
             vscode.window.showErrorMessage('Portal Helper: You need to provide local path for Portal to be uploaded from');

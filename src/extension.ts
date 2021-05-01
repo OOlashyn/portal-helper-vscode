@@ -24,8 +24,14 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('portal-helper-vscode.upload', (local?:boolean) => {
-			portalActions.UploadPortal(local);
+		vscode.commands.registerCommand('portal-helper-vscode.upload', () => {
+			portalActions.UploadPortal();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.uploadCurrent', () => {
+			portalActions.UploadPortal(true);
 		})
 	);
 

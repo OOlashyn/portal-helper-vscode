@@ -1,70 +1,70 @@
-# pas-portal-vscode README
+# Portal Helper
 
-This is the README for your extension "pas-portal-vscode". After writing up a brief description, we recommend including the following sections.
+Set of commands to simplify work with Power Apps CLI for Portals.
 
-## Features
+## Usage
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+You can view list of available commands via `Ctrl+Shift+P` and type **Portal Helper**.
+See shortcuts for available commands below.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+You need to have the following prerequisites on your machine:
 
-## Extension Settings
+1. [npm](https://nodejs.org/en/)
+2. [PCF CLI](https://aka.ms/PowerAppsCLI)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## List of all available commands
 
-For example:
+| Command | Description |
+| ------- | ----------------- |
+| List Portals | Shows the list of available portals for current Dataverse organization |
+| Download Portal | Download portal by id from current Dataverse org to specified local path |
+| Upload Portal | Upload portal from local folder to current Dataverse org |
+| Upload Current Portal | Upload portal from open workspace folder to current Dataverse org |
+| Create New Auth Profile | Creates a new auth profile for specified Dataverse org |
+| List Auth Profiles | Shows list of profiles that are authenticated with Dataverse orgs for current machine. |
+| Delete Auth Profile | Deletes a specific profile from the current machine |
+| Switch Auth Profile | Changes the default profile connected to Dataverse org |
 
-This extension contributes the following settings:
+### Keyboard Shortcuts
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+| Command | Keyboard Shortcut |
+| ------- | ----------------- |
+| Upload Portal | `Ctrl + U, Ctrl + P` |
+| Upload Current Portal | `Ctrl + U, Ctrl + C` |
+| List Portal | `Ctrl + L, Ctrl + P` |
+| Download Portal| `Ctrl + D, Ctrl + P` |
 
-## Known Issues
+## Features
 
+1. List Portals
+
+    ![List-Portals](https://github.com/OOlashyn/portal-helper-vscode/blob/master/assets/list-portals.gif?raw=true)
+
+2. Upload Portal
+
+    ![Upload-Portal](https://github.com/OOlashyn/portal-helper-vscode/blob/master/assets/upload-portal.gif?raw=true)
+
+3. Upload Current Portal
+
+    ![Upload-Current-Portal](https://github.com/OOlashyn/portal-helper-vscode/blob/master/assets/upload-current-portal.gif?raw=true)
+
+4. Download Portal
+
+    ![Download-Portal](https://github.com/OOlashyn/portal-helper-vscode/blob/master/assets/download-portal.gif?raw=true)
+
+## Contributing
+
+Found a bug? or have a feature request? - Create a pull request or an issue on [GitHub](https://github.com/OOlashyn/portal-helper-vscode)
+
+## License
+
+This software is released under [MIT License](http://www.opensource.org/licenses/mit-license.php)
 Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release

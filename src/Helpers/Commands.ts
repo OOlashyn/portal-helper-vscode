@@ -4,7 +4,7 @@ export class Commands {
     }
 
     public static DownloadPortal(localPath:string, websiteId: string, overwritePortal: string | undefined){
-        let overwriteText = overwritePortal ? `-o ${overwritePortal}`: '';
+        let overwriteText = overwritePortal === "Yes" ? `-o true`: '';
         return `pac paportal download -p ${localPath} -id ${websiteId} ${overwriteText}`;
     }
 
