@@ -27,7 +27,7 @@
 		"url": "https://github.com/OOlashyn/portal-helper-vscode.git"
 	},
 	"license": "MIT",
-	"icon": "icon/icon.png",
+	"icon": "icon/main-icon.png",
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
