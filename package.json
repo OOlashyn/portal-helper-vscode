@@ -1,0 +1,90 @@
+{
+	"name": "portal-helper-vscode",
+	"displayName": "portal-helper-VSCode",
+	"description": "Set of commands to simplify work with Power Apps CLI for Portals",
+	"publisher": "oleksandr-olashyn",
+	"version": "1.0.0",
+	"engines": {
+		"vscode": "^1.55.0"
+	},
+	"keywords": [
+		"Power Apps Portals",
+		"Power Apps",
+		"Power Apps CLI"
+	],
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"license": "MIT",
+	"icon": "icon/icon.png",
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "portal-helper-vscode.list",
+				"category": "Portal Helper",
+				"title": "List Portals"
+			},
+			{
+				"command": "portal-helper-vscode.download",
+				"category": "Portal Helper",
+				"title": "Download Portal"
+			},
+			{
+				"command": "portal-helper-vscode.upload",
+				"category": "Portal Helper",
+				"title": "Upload Portal"
+			},
+			{
+				"command": "portal-helper-vscode.listProfiles",
+				"category": "Portal Helper",
+				"title": "List Auth Profiles"
+			},
+			{
+				"command": "portal-helper-vscode.createProfile",
+				"category": "Portal Helper",
+				"title": "Create New Auth Profile"
+			},
+			{
+				"command": "portal-helper-vscode.deleteProfile",
+				"category": "Portal Helper",
+				"title": "Delete Auth Profile"
+			},
+			{
+				"command": "portal-helper-vscode.switchProfile",
+				"category": "Portal Helper",
+				"title": "Switch Auth Profile"
+			}
+		],
+		"keybindings": {
+			"command": "portal-helper-vscode.upload",
+			"key": "ctrl+u",
+			"args": {"local": true}
+		}
+	},
+	
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.55.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.0.4",
+		"@types/node": "^12.11.7",
+		"eslint": "^7.19.0",
+		"@typescript-eslint/eslint-plugin": "^4.14.1",
+		"@typescript-eslint/parser": "^4.14.1",
+		"glob": "^7.1.6",
+		"mocha": "^8.2.1",
+		"typescript": "^4.1.3",
+		"vscode-test": "^1.5.0"
+	}
+}
