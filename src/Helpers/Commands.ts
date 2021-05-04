@@ -4,12 +4,12 @@ export class Commands {
     }
 
     public static DownloadPortal(localPath:string, websiteId: string, overwritePortal: string | undefined){
-        let overwriteText = overwritePortal === "Yes" ? `-o true`: '';
-        return `pac paportal download -p ${localPath} -id ${websiteId} ${overwriteText}`;
+        let overwriteText = overwritePortal === 'Yes' ? `-o true`: '';
+        return `pac paportal download -p "${localPath}" -id ${websiteId} ${overwriteText}`;
     }
 
     public static UploadPortal(localPath:string){
-        return `pac paportal upload -p ${localPath}`;
+        return `pac paportal upload -p "${localPath}"`;
     }
 
     public static AuthList(){

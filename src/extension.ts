@@ -58,6 +58,25 @@ export function activate(context: vscode.ExtensionContext) {
 			authActions.ListProfiles();
 		})
 	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.createCustomJS', (selectedUri: vscode.Uri) => {
+			portalActions.CreateCustomJS(selectedUri);
+		})
+	);
+
+	
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.createCustomCSS', (selectedUri: vscode.Uri) => {
+			portalActions.CreateCustomCSS(selectedUri);
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.downloadLatestPortal', () => {
+			portalActions.DownloadLatestPortal();
+		})
+	);
 }
 
 // this method is called when your extension is deactivated

@@ -70,8 +70,45 @@
 				"command": "portal-helper-vscode.switchProfile",
 				"category": "Portal Helper",
 				"title": "Switch Auth Profile"
+			},
+			{
+				"command": "portal-helper-vscode.createCustomJS",
+				"category": "Portal Helper",
+				"title": "Create Custom JS"
+			},
+			{
+				"command": "portal-helper-vscode.createCustomCSS",
+				"category": "Portal Helper",
+				"title": "Create Custom CSS"
+			},
+			{
+				"command": "portal-helper-vscode.downloadLatestPortal",
+				"category": "Portal Helper",
+				"title": "Download Latest"
 			}
 		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "portal-helper-vscode.createCustomJS",
+					"when": "resourceExtname == .yml"
+				},
+				{
+					"command": "portal-helper-vscode.createCustomCSS",
+					"when": "resourceExtname == .yml"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "portal-helper-vscode.createCustomJS",
+					"when": "false"
+				},
+				{
+					"command": "portal-helper-vscode.createCustomCSS",
+					"when": "false"
+				}
+			]
+		},
 		"keybindings": [
 			{
 				"command": "portal-helper-vscode.upload",
@@ -88,6 +125,10 @@
 			{
 				"command": "portal-helper-vscode.download",
 				"key": "ctrl+d ctrl+p"
+			},
+			{
+				"command": "portal-helper-vscode.downloadLatestPortal",
+				"key": "ctrl+d ctrl+l"
 			}
 		]
 	},
