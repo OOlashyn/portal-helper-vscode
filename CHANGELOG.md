@@ -6,7 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-## [1.1.0] - 2021-05-05
+## [1.0.3] - 2021-05-05
 
 ### Added
 
