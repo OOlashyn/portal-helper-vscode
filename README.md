@@ -19,13 +19,16 @@ You need to have the following prerequisites on your machine:
 | ------- | ----------------- |
 | List Portals | Shows the list of available portals for current Dataverse organization |
 | Download Portal | Download portal by id from current Dataverse org to specified local path |
-| Download Latest | Download portal by id from current Dataverse org to specified local path. Saves entered id and path on the workspace level for later reuse |
+| Download Latest | Download latest version of the portal by id specified in website.yml from current folder |
+| Update Download Latest Settings | Allows to update setting for Download Latest command and download portal based on the new settings |
 | Upload Portal | Upload portal from local folder to current Dataverse org |
 | Upload Current Portal | Upload portal from open workspace folder to current Dataverse org |
 | Create New Auth Profile | Creates a new auth profile for specified Dataverse org |
 | List Auth Profiles | Shows list of profiles that are authenticated with Dataverse orgs for current machine. |
 | Delete Auth Profile | Deletes a specific profile from the current machine |
 | Switch Auth Profile | Changes the default profile connected to Dataverse org |
+
+### Context menu commands
 
 | Context Menu Command | Description |
 | ------- | ----------------- |
@@ -78,6 +81,12 @@ This software is released under [MIT License](http://www.opensource.org/licenses
 Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ## Release Notes
+
+### 1.0.4
+
+#### Changed
+
+- Now "Download Latest" will use current parent folder and website id from website.yml so you don't need to type folder path and portal id
 
 ### 1.0.3
 

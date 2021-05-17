@@ -3,13 +3,13 @@
 import * as vscode from 'vscode';
 import { AuthActions } from './Actions/AuthActions';
 
-import {PortalActions} from './Actions/PortalActions';
- 
+import { PortalActions } from './Actions/PortalActions';
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	let portalActions = new PortalActions(context);
-	let authActions = new AuthActions(context);
+	const portalActions = new PortalActions(context);
+	const authActions = new AuthActions(context);
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand('portal-helper-vscode.list', () => {
@@ -65,7 +65,7 @@ export function activate(context: vscode.ExtensionContext) {
 		})
 	);
 
-	
+
 	context.subscriptions.push(
 		vscode.commands.registerCommand('portal-helper-vscode.createCustomCSS', (selectedUri: vscode.Uri) => {
 			portalActions.CreateCustomCSS(selectedUri);
@@ -80,4 +80,4 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

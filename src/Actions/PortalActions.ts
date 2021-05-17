@@ -3,9 +3,21 @@ import { Terminal } from '../Helpers/Terminal';
 import { Commands } from '../Helpers/Commands';
 import { VSCodeHelper } from '../Helpers/VSCodeHelper';
 
+import * as yaml from 'js-yaml';
+
 interface IPortalConfig {
     portalId: string,
     portalPath: string
+}
+
+interface IPAWebsite {
+    adx_name: string,
+    adx_website_language: number,
+    adx_websiteid: string,
+    adx_headerwebtemplateid?: string,
+    adx_footerwebtemplateid?: string,
+    adx_defaultlanguage?: string,
+    [x: string]: any
 }
 export class PortalActions {
     private _context: vscode.ExtensionContext;
@@ -23,8 +35,8 @@ export class PortalActions {
     public async DownloadPortal() {
         vscode.window.showInformationMessage('Portal Helper: Download specific portal');
 
-        let localPortalPathOptions: vscode.InputBoxOptions = {
-            prompt: 'Enter local path where portal will be downloaded',
+        const localPortalPathOptions: vscode.InputBoxOptions = {
+            prompt: 'Enter local path where portal will be downloaded or c for current folder',
             placeHolder: 'Local path C:\\Code\\Portals'
         };
 
@@ -35,26 +47,30 @@ export class PortalActions {
             return;
         }
 
-        let websiteIdOptions: vscode.InputBoxOptions = {
+        if (localPortalPath === 'c' && vscode.workspace.workspaceFolders) {
+            localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+        }
+
+        const websiteIdOptions: vscode.InputBoxOptions = {
             prompt: 'Provide Id of the portal to download',
             placeHolder: 'Id like 00000000-0000-0000-0000-000000000000'
         };
 
-        let websiteId = await vscode.window.showInputBox(websiteIdOptions);
+        const websiteId = await vscode.window.showInputBox(websiteIdOptions);
 
         if (!websiteId) {
             vscode.window.showErrorMessage('Portal Helper: You need to provide id of the website');
             return;
         }
 
-        let overwriteOptionsItems: string[] = ["Yes", "No"];
+        const overwriteOptionsItems: string[] = ["Yes", "No"];
 
-        let overwriteOptions: vscode.QuickPickOptions = {
+        const overwriteOptions: vscode.QuickPickOptions = {
             canPickMany: false,
             placeHolder: "Overwrite existing portal (optional)"
         };
 
-        let overwritePortal = await vscode.window.showQuickPick(overwriteOptionsItems, overwriteOptions);
+        const overwritePortal = await vscode.window.showQuickPick(overwriteOptionsItems, overwriteOptions);
 
         Terminal.RunCommand(Commands.DownloadPortal(localPortalPath, websiteId, overwritePortal));
     }
@@ -62,52 +78,38 @@ export class PortalActions {
     public async DownloadLatestPortal() {
         vscode.window.showInformationMessage('Portal Helper: Download Latest portal');
 
-        const savedPortalConfig = this._context.workspaceState.get('CurrentPortalConfig');
+        if (vscode.workspace.workspaceFolders) {
+            const filePath = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, 'website.yml');
 
-        let portalConfig:IPortalConfig;
+            let webSiteDocument;
 
-        if(savedPortalConfig) {
-            portalConfig = savedPortalConfig as IPortalConfig;
+            try {
+                webSiteDocument = await vscode.workspace.openTextDocument(filePath);
+            } catch (error) {
+                vscode.window.showErrorMessage(`Portal Helper: website.yml wasn't found in the directory`);
+                return;
+            }
+
+            if (webSiteDocument) {
+                const webSiteInfoText = webSiteDocument.getText();
+
+                const webSiteInfo = yaml.load(webSiteInfoText) as IPAWebsite;
+
+                const { parentFolderPath } = VSCodeHelper.GetFileAndFolderFromURI(vscode.workspace.workspaceFolders[0].uri);
+
+                Terminal.RunCommand(Commands.DownloadPortal(parentFolderPath, webSiteInfo.adx_websiteid, 'Yes'));
+            } else {
+                vscode.window.showErrorMessage(`Portal Helper: website.yml wasn't found in the directory`);
+            }
         } else {
-
-            let localPortalPathOptions: vscode.InputBoxOptions = {
-                prompt: 'Enter local path where portal will be downloaded',
-                placeHolder: 'Local path C:\\Code\\Portals or c for current parent folder'
-            };
-    
-            let localPortalPath = await vscode.window.showInputBox(localPortalPathOptions);
-    
-            if (!localPortalPath) {
-                vscode.window.showErrorMessage('Portal Helper: You need to provide local path for Portal to be downloaded into');
-                return;
-            }
-    
-            let websiteIdOptions: vscode.InputBoxOptions = {
-                prompt: 'Provide Id of the portal to download',
-                placeHolder: 'Id like 00000000-0000-0000-0000-000000000000'
-            };
-    
-            let websiteId = await vscode.window.showInputBox(websiteIdOptions);
-    
-            if (!websiteId) {
-                vscode.window.showErrorMessage('Portal Helper: You need to provide id of the website');
-                return;
-            }
-    
-            portalConfig = {
-                portalId: websiteId,
-                portalPath: localPortalPath
-            };
-
-            this._context.workspaceState.update('CurrentPortalConfig', portalConfig);
+            vscode.window.showErrorMessage('Portal Helper: You need to have at least one folder open');
         }
-        Terminal.RunCommand(Commands.DownloadPortal(portalConfig.portalPath, portalConfig.portalId, 'Yes'));
     }
 
     public async UploadPortal(currentPortal?: boolean) {
         vscode.window.showInformationMessage('Portal Helper: Upload portal');
 
-        let localPortalPathOptions: vscode.InputBoxOptions = {
+        const localPortalPathOptions: vscode.InputBoxOptions = {
             prompt: 'Enter local path from where portal will be uploaded or c for current folder',
             placeHolder: 'Local path C:\\Code\\Portals\\starter-portal'
         };
@@ -132,25 +134,12 @@ export class PortalActions {
     public async CreateCustomJS(selectedUri: vscode.Uri) {
         vscode.window.showInformationMessage('Portal Helper: Create Custom JS');
 
-        this.CreateCustomPage(selectedUri, 'js');
+        VSCodeHelper.CreateCustomPage(selectedUri, 'js');
     }
 
     public async CreateCustomCSS(selectedUri: vscode.Uri) {
         vscode.window.showInformationMessage('Portal Helper: Create Custom CSS');
 
-        this.CreateCustomPage(selectedUri, 'css');
-    }
-
-    private async CreateCustomPage(selectedUri: vscode.Uri, pageType: string) {
-        const { folderPath, fileName, fileNameWithExt } = VSCodeHelper.GetFileAndFolderFromURI(selectedUri);
-
-        if (fileNameWithExt.indexOf('.webpage.yml') === -1 && fileNameWithExt.indexOf('.basicform.yml') === -1
-            && fileNameWithExt.indexOf('.advancedformstep.yml') === -1) { return; }
-
-        const newFileName = pageType === 'css' ? `${fileName}.custom_css.css` : `${fileName}.custom_javascript.js`;
-
-        const newFilePath = vscode.Uri.file(folderPath + '/' + newFileName);
-
-        VSCodeHelper.CreateFile(newFilePath);
+        VSCodeHelper.CreateCustomPage(selectedUri, 'css');
     }
 }

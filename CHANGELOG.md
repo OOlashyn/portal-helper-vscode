@@ -2,9 +2,13 @@
 
 All notable changes to the Power Apps Portal Helper extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
 ## [Unreleased]
+
+## [1.0.4] - 2021-05-17
+
+### Changed
+
+- Now "Download Latest" will use current parent folder and website id from website.yml so you don't need to type folder path and portal id
 
 ## [1.0.3] - 2021-05-05
 
