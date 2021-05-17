@@ -4,7 +4,7 @@ All notable changes to the Power Apps Portal Helper extension will be documented
 
 ## [Unreleased]
 
-## [1.0.4] - 2021-05-17
+## [1.1.0] - 2021-05-17
 
 ### Changed
 
