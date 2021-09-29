@@ -128,7 +128,45 @@ export class PortalActions {
             return;
         }
 
-        Terminal.RunCommand(Commands.UploadPortal(localPortalPath));
+        let deploymentProfile: string | undefined = undefined;
+
+        if(!currentPortal) {
+            let deploymentProfileOptionsItems: string[] = ["No Profile (default)"];
+
+            const deploymentProfilQuickPickOptions: vscode.QuickPickOptions = {
+                canPickMany: false,
+                placeHolder: "Deployment profile (optional)"
+            };
+    
+            if (vscode.workspace.workspaceFolders) {
+                const deploymentProfilesUri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, "deployment-profiles");
+    
+                const deploymentProfilesFolderExists = await VSCodeHelper.Exists(deploymentProfilesUri);
+    
+                if(deploymentProfilesFolderExists) {
+                    const deploymentProfiles: [string, vscode.FileType][] = await vscode.workspace.fs.readDirectory(deploymentProfilesUri);
+                    if (deploymentProfiles.length > 0) {
+                        for (let index = 0; index < deploymentProfiles.length; index++) {
+                            const folderElement = deploymentProfiles[index];
+                            const extIndex = folderElement[0].indexOf(".deployment.yml");
+                            if (folderElement[1] === vscode.FileType.File && extIndex !== -1) {
+                                deploymentProfileOptionsItems.push(folderElement[0].slice(0, extIndex));
+                            }
+                        }
+                    }
+                }
+            }
+    
+            deploymentProfile = deploymentProfileOptionsItems.length > 1
+                ? await vscode.window.showQuickPick(deploymentProfileOptionsItems, deploymentProfilQuickPickOptions)
+                : undefined;
+    
+            if(deploymentProfile === "No Profile (default)") {
+                deploymentProfile = undefined;
+            }
+        }
+
+        Terminal.RunCommand(Commands.UploadPortal(localPortalPath, deploymentProfile));
     }
 
     public async CreateCustomJS(selectedUri: vscode.Uri) {
@@ -141,5 +179,35 @@ export class PortalActions {
         vscode.window.showInformationMessage('Portal Helper: Create Custom CSS');
 
         VSCodeHelper.CreateCustomPage(selectedUri, 'css');
+    }
+
+    public async CreateDeploymentProfile() {
+        vscode.window.showInformationMessage('Portal Helper: Create Deployment Profile');
+
+        const deploymentProfileOptions: vscode.InputBoxOptions = {
+            prompt: 'Enter name of the profile',
+            placeHolder: 'dev | test | etc...'
+        };
+
+        let deploymentProfileName = await vscode.window.showInputBox(deploymentProfileOptions);
+
+        if (!deploymentProfileName) {
+            vscode.window.showErrorMessage('Portal Helper: You need to provide a name for the profile');
+            return;
+        }
+
+        if (vscode.workspace.workspaceFolders) {
+            const deploymentProfilesFolderUri = vscode.Uri.joinPath(vscode.workspace.workspaceFolders[0].uri, "deployment-profiles");
+
+            const deploymentProfilesFolderExists = await VSCodeHelper.Exists(deploymentProfilesFolderUri);
+
+            if(!deploymentProfilesFolderExists) {
+                const directory = await vscode.workspace.fs.createDirectory(deploymentProfilesFolderUri);
+            }
+
+            const newDeploymentProfile= vscode.Uri.joinPath(deploymentProfilesFolderUri, `${deploymentProfileName}.deployment.yml`);
+            
+            VSCodeHelper.CreateFile(newDeploymentProfile);
+        }
     }
 }

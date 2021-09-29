@@ -4,6 +4,16 @@ All notable changes to the Power Apps Portal Helper extension will be documented
 
 ## [Unreleased]
 
+## [1.2.0] - 2021-09-29
+
+### Changed
+
+- Now "Upload Portal" supports deploymentProfile parameter
+
+### Added
+
+- New command - "Create Deployment Profile" - allows to create new deployment profile
+
 ## [1.1.0] - 2021-05-17
 
 ### Changed

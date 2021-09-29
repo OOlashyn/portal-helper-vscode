@@ -85,6 +85,11 @@
 				"command": "portal-helper-vscode.downloadLatestPortal",
 				"category": "Portal Helper",
 				"title": "Download Latest"
+			},
+			{
+				"command": "portal-helper-vscode.CreateDeploymentProfile",
+				"category": "Portal Helper",
+				"title": "Create Deployment Profile"
 			}
 		],
 		"menus": {

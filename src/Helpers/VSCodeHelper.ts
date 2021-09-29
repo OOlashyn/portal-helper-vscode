@@ -40,4 +40,21 @@ export class VSCodeHelper {
 
         VSCodeHelper.CreateFile(newFilePath);
     }
+
+    public static async Exists(uri: vscode.Uri): Promise<boolean>{
+        let result = false;
+
+        try {
+            let stats = await vscode.workspace.fs.stat(uri);
+            if(stats) {
+                result = true;
+            }
+        } catch (error) {
+            if ((error as vscode.FileSystemError).code !== "FileNotFound") {
+                throw error;
+            }
+        }
+
+        return result;
+    }
 }

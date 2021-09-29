@@ -27,6 +27,7 @@ You need to have the following prerequisites on your machine:
 | List Auth Profiles | Shows list of profiles that are authenticated with Dataverse orgs for current machine. |
 | Delete Auth Profile | Deletes a specific profile from the current machine |
 | Switch Auth Profile | Changes the default profile connected to Dataverse org |
+| Create Deployment Profile | Allows to create new deployment profile |
 
 ### Context menu commands
 
@@ -81,6 +82,16 @@ This software is released under [MIT License](http://www.opensource.org/licenses
 Calling out known issues can help limit users opening duplicate issues against your extension.
 
 ## Release Notes
+
+### 1.2.0
+
+#### Changed
+
+- Now "Upload Portal" supports deploymentProfile parameter
+
+#### Added
+
+- New command - "Create Deployment Profile" - allows to create new deployment profile
 
 ### 1.1.0
 
