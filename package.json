@@ -10,7 +10,10 @@
 	"keywords": [
 		"Power Apps Portals",
 		"Power Apps",
-		"Power Apps CLI"
+		"Power Apps CLI",
+		"Power Pages",
+		"Power Platform",
+		"Power Platform CLI"
 	],
 	"categories": [
 		"Other"
@@ -134,6 +137,23 @@
 			{
 				"command": "portal-helper-vscode.downloadLatestPortal",
 				"key": "ctrl+d ctrl+l"
+			}
+		],
+		"configuration":[
+			{
+				"title": "Portal Helper",
+				"properties": {
+					"portalHelper.downloadLatest.includeEntities": {
+						"type": "string",
+						"default": "",
+						"description": "List of entites to include"
+					},
+					"portalHelper.downloadLatest.excludeEntities": {
+						"type": "string",
+						"default": "",
+						"description": "List of entites to exclude"
+					}
+				}
 			}
 		]
 	},
