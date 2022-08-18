@@ -2,7 +2,7 @@
 
 # Portal Helper
 
-Set of commands to simplify work with Power Apps CLI for Portals.
+Set of commands to simplify work with Power Platform CLI for Power Apps Portals / Power Pages.
 
 ## Usage
 
@@ -48,6 +48,13 @@ You need to have the following prerequisites on your machine:
 | Download Portal | `Ctrl + D, Ctrl + P` |
 | Download Latest | `Ctrl + D, Ctrl + L` |
 
+### Available Settings
+
+| Setting | Description |
+| ------- | ----------------- |
+| Download Latest Include Entities | Comma separated list of entities to use as includeEntities parameter in Download Latest command |
+| Download Latest Exclude Entities | Comma separated list of entities to use as excludeEntities parameter in Download Latest command |
+
 ## Features
 
 1. List Portals
@@ -85,6 +92,15 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 ## Release Notes
 
+### 1.3.0
+
+#### Changed
+
+- Now "Download Portal" supports includeEntities and excludeEntities parameters
+
+#### Added
+
+- New settings for Download Latest command - Include Entities and Exclude Entities
 ### 1.2.0
 
 #### Changed
