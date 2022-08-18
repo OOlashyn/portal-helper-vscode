@@ -146,12 +146,12 @@
 					"portalHelper.downloadLatest.includeEntities": {
 						"type": "string",
 						"default": "",
-						"description": "List of entites to include"
+						"description": "Comma separated list of entites to include"
 					},
 					"portalHelper.downloadLatest.excludeEntities": {
 						"type": "string",
 						"default": "",
-						"description": "List of entites to exclude"
+						"description": "Comma separated list of entites to exclude"
 					}
 				}
 			}
