@@ -1,5 +1,3 @@
-[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://vshymanskyy.github.io/StandWithUkraine)
-
 # Portal Helper
 
 Set of commands to simplify work with Power Platform CLI for Power Apps Portals / Power Pages.
