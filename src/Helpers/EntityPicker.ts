@@ -4,7 +4,7 @@ interface EntityItem extends QuickPickItem {
   value: string;
 }
 
-const commonEntities: EntityItem[] = [
+const commonPortalEntities: EntityItem[] = [
   {
     label: "Advance Forms",
     value: "adx_webform",
@@ -55,12 +55,13 @@ const commonEntities: EntityItem[] = [
   },
 ];
 
-export async function EntityPicker(placeHolder: string) {
+export async function EntityPicker(title: string) {
   return new Promise<EntityItem[]>((resolve, reject) => {
     const input = window.createQuickPick<EntityItem>();
-    input.placeholder = placeHolder;
+    input.placeholder = 'Filter';
+    input.title = title;
     input.canSelectMany = true;
-    input.items = commonEntities;
+    input.items = commonPortalEntities;
     input.onDidAccept(() => {
       const selection = [...input.selectedItems];
       resolve(selection);
