@@ -2,7 +2,15 @@
 
 All notable changes to the Power Apps Portal Helper extension will be documented in this file.
 
-## [Unreleased]
+## [1.3.0]
+
+### Changed
+
+- Now "Download Portal" supports includeEntities and excludeEntities parameters
+
+### Added
+
+- New settings for Download Latest command - Include Entities and Exclude Entities
 
 ## [1.2.0] - 2021-09-29
 
