@@ -1,10 +1,8 @@
 name: Release
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
-    branches: [ "release" ]
+    branches: [ "master" ]
 
   workflow_dispatch:
 
@@ -13,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v3
       - name: Install Node.js
