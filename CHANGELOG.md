@@ -1,6 +1,16 @@
 # Change Log
 
-All notable changes to the Power Apps Portal Helper extension will be documented in this file.
+All notable changes to the Power Pages Helper extension will be documented in this file.
+
+## [1.4.0]
+
+### Changed
+
+- Renamed extension to Power Pages Helper
+
+### Added
+
+- New command Migrate to Bootstrap 5 - converts existing portal to Bootstrap 5 (creates new folder with updated portal)
 
 ## [1.3.0]
 

@@ -252,6 +252,38 @@ export class PortalActions {
     );
   }
 
+  public async BootstrapMigrate() {
+    vscode.window.showInformationMessage("Portal Helper: Bootstrap Migrate");
+
+    const localPortalPathOptions: vscode.InputBoxOptions = {
+      prompt:
+        "Enter local path from where portal will be uploaded or c for current folder",
+      placeHolder: "Local path C:\\Code\\Portals\\starter-portal",
+    };
+
+    let localPortalPath = await vscode.window.showInputBox(localPortalPathOptions);
+
+    if (!localPortalPath) {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide local path for Portal to be migrated from"
+      );
+      return;
+    }
+
+    if (localPortalPath === "c" && vscode.workspace.workspaceFolders) {
+      localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    } else {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide local path for Portal to be migrated from"
+      );
+      return;
+    }
+
+    Terminal.RunCommand(
+      Commands.BootstrapMigrate(localPortalPath)
+    );
+  }
+
   public async CreateCustomJS(selectedUri: vscode.Uri) {
     vscode.window.showInformationMessage("Portal Helper: Create Custom JS");
 

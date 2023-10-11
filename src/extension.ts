@@ -36,6 +36,12 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.bootstrapMigrate', () => {
+			portalActions.BootstrapMigrate();
+		})
+	);
+
+	context.subscriptions.push(
 		vscode.commands.registerCommand('portal-helper-vscode.createProfile', () => {
 			authActions.CreateProfile();
 		})
