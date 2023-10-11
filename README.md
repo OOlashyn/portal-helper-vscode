@@ -53,6 +53,10 @@ You need to have the following prerequisites on your machine:
 | ------- | ----------------- |
 | Download Latest Include Entities | Comma separated list of entities to use as includeEntities parameter in Download Latest command |
 | Download Latest Exclude Entities | Comma separated list of entities to use as excludeEntities parameter in Download Latest command |
+| Download Latest Model Version | Allows to specify version of the model to download (1 or 2). If not specified, the version 1 will be downloaded |
+| Download Portal Skip Included Entities | Allows you to skip Included Entities option in the Download Portal command |
+| Download Portal Skip Excluded Entities | Allows you to skip Excluded Entities option in the Download Portal command |
+
 
 ## Features
 
@@ -96,10 +100,15 @@ Calling out known issues can help limit users opening duplicate issues against y
 #### Changed
 
 - Renamed extension to Power Pages Helper
+- Switch paportal to powerpages in CLI commands
+- Now "Download Portal" supports modedVersion parameter
 
 #### Added
 
 - New command Migrate to Bootstrap 5 - converts existing portal to Bootstrap 5 (creates new folder with updated portal)
+- New setting Download Latest Model Version - Allows to specify version of the model to download (1 or 2) to support Enhanced Data Model
+- New setting Download Portal Skip Included Entities - Allows you to skip Included Entities option in the Download Portal command
+- New setting Download Portal Skip Excluded Entities - Allows you to skip Excluded Entities option in the Download Portal command
 ### 1.3.0
 
 #### Changed

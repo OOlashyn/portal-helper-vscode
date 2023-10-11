@@ -7,10 +7,15 @@ All notable changes to the Power Pages Helper extension will be documented in th
 ### Changed
 
 - Renamed extension to Power Pages Helper
+- Switch paportal to powerpages in CLI commands
+- Now "Download Portal" supports modedVersion parameter
 
 ### Added
 
 - New command Migrate to Bootstrap 5 - converts existing portal to Bootstrap 5 (creates new folder with updated portal)
+- New setting Download Latest Model Version - Allows to specify version of the model to download (1 or 2) to support Enhanced Data Model
+- New setting Download Portal Skip Included Entities - Allows you to skip Included Entities option in the Download Portal command
+- New setting Download Portal Skip Excluded Entities - Allows you to skip Excluded Entities option in the Download Portal command
 
 ## [1.3.0]
 

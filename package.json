@@ -146,8 +146,18 @@
 		],
 		"configuration": [
 			{
-				"title": "Portal Helper",
+				"title": "Power Pages Helper",
 				"properties": {
+					"portalHelper.downloadPortal.skipIncludedEntities": {
+						"type": "boolean",
+						"default": false,
+						"description": "Select if you would like to skip Included Entities option in the Download Portal command"
+					},
+					"portalHelper.downloadPortal.skipExcludedEntities": {
+						"type": "boolean",
+						"default": false,
+						"description": "Select if you would like to skip Excluded Entities option in the Download Portal command"
+					},
 					"portalHelper.downloadLatest.includeEntities": {
 						"type": "string",
 						"default": "",
@@ -157,6 +167,11 @@
 						"type": "string",
 						"default": "",
 						"description": "Comma separated list of entities logical names to exclude"
+					},
+					"portalHelper.downloadLatest.modelVersion": {
+						"type": "string",
+						"default": "",
+						"description": "Specify version of the model to download (1 or 2). If not specified, the version 1 will be downloaded"
 					}
 				}
 			}
