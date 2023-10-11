@@ -80,21 +80,50 @@ export class PortalActions {
       return;
     }
 
-    const entitiesToIncludeArr = await EntityPicker("Select entities to include (optional)");
+    const isSkipIncludedEntities = vscode.workspace
+      .getConfiguration("portalHelper.downloadPortal")
+      .get("skipIncludedEntities");
 
     let includedEntities: string = "";
 
-    if (entitiesToIncludeArr.length !== 0) {
-        includedEntities = entitiesToIncludeArr.map(el => el.value).join(",");
-    }
+    if (!isSkipIncludedEntities) {
+      const entitiesToIncludeArr = await EntityPicker(
+        "Select entities to include (optional)"
+      );
 
-    const entitiesToExcludeArr = await EntityPicker("Select entities to exclude (optional)");
+      if (entitiesToIncludeArr.length !== 0) {
+        includedEntities = entitiesToIncludeArr.map((el) => el.value).join(",");
+      }
+    }
 
     let excludedEntities: string = "";
 
-    if (entitiesToExcludeArr.length !== 0) {
-        excludedEntities = entitiesToExcludeArr.map(el => el.value).join(",");
+    const isSkipExcludedEntities = vscode.workspace
+      .getConfiguration("portalHelper.downloadPortal")
+      .get("skipExcludedEntities");
+
+    if (!isSkipExcludedEntities) {
+      const entitiesToExcludeArr = await EntityPicker(
+        "Select entities to exclude (optional)"
+      );
+
+      if (entitiesToExcludeArr.length !== 0) {
+        excludedEntities = entitiesToExcludeArr.map((el) => el.value).join(",");
+      }
     }
+
+    const modelVersionItems: string[] = ["1", "2"];
+
+    const modelVersionOptions: vscode.QuickPickOptions = {
+      canPickMany: false,
+      placeHolder:
+        "Select version 2 if you are using Enhanced Data Model (optional)",
+    };
+
+    const modelVersionPortal = await vscode.window.showQuickPick(
+      modelVersionItems,
+      modelVersionOptions
+    );
 
     const overwriteOptionsItems: string[] = ["Yes", "No"];
 
@@ -109,7 +138,14 @@ export class PortalActions {
     );
 
     Terminal.RunCommand(
-      Commands.DownloadPortal(localPortalPath, websiteId, overwritePortal,includedEntities,excludedEntities)
+      Commands.DownloadPortal(
+        localPortalPath,
+        websiteId,
+        overwritePortal,
+        includedEntities,
+        excludedEntities,
+        modelVersionPortal
+      )
     );
   }
 
@@ -149,8 +185,15 @@ export class PortalActions {
             parentFolderPath,
             webSiteInfo.adx_websiteid,
             "Yes",
-            vscode.workspace.getConfiguration("portalHelper.downloadLatest").get("includeEntities"),
-            vscode.workspace.getConfiguration("portalHelper.downloadLatest").get("excludeEntities")
+            vscode.workspace
+              .getConfiguration("portalHelper.downloadLatest")
+              .get("includeEntities"),
+            vscode.workspace
+              .getConfiguration("portalHelper.downloadLatest")
+              .get("excludeEntities"),
+            vscode.workspace
+              .getConfiguration("portalHelper.downloadLatest")
+              .get("modelVersion")
           )
         );
       } else {
@@ -250,6 +293,38 @@ export class PortalActions {
     Terminal.RunCommand(
       Commands.UploadPortal(localPortalPath, deploymentProfile)
     );
+  }
+
+  public async BootstrapMigrate() {
+    vscode.window.showInformationMessage("Portal Helper: Bootstrap Migrate");
+
+    const localPortalPathOptions: vscode.InputBoxOptions = {
+      prompt:
+        "Enter local path from where portal will be uploaded or c for current folder",
+      placeHolder: "Local path C:\\Code\\Portals\\starter-portal",
+    };
+
+    let localPortalPath = await vscode.window.showInputBox(
+      localPortalPathOptions
+    );
+
+    if (!localPortalPath) {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide local path for Portal to be migrated from"
+      );
+      return;
+    }
+
+    if (localPortalPath === "c" && vscode.workspace.workspaceFolders) {
+      localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    } else {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide local path for Portal to be migrated from"
+      );
+      return;
+    }
+
+    Terminal.RunCommand(Commands.BootstrapMigrate(localPortalPath));
   }
 
   public async CreateCustomJS(selectedUri: vscode.Uri) {

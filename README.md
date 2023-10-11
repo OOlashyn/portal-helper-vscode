@@ -1,6 +1,6 @@
-# Portal Helper
+# Power Pages Helper
 
-Set of commands to simplify work with Power Platform CLI for Power Apps Portals / Power Pages.
+Set of commands to simplify work with Power Platform CLI for Power Pages.
 
 ## Usage
 
@@ -23,6 +23,7 @@ You need to have the following prerequisites on your machine:
 | Update Download Latest Settings | Allows to update setting for Download Latest command and download portal based on the new settings |
 | Upload Portal | Upload portal from local folder to current Dataverse org |
 | Upload Current Portal | Upload portal from open workspace folder to current Dataverse org |
+| Migrate to Bootstrap 5 | Convert existing Portal to Bootstrap 5 (will generate a new folder with updated portal) |
 | Create New Auth Profile | Creates a new auth profile for specified Dataverse org |
 | List Auth Profiles | Shows list of profiles that are authenticated with Dataverse orgs for current machine. |
 | Delete Auth Profile | Deletes a specific profile from the current machine |
@@ -52,6 +53,10 @@ You need to have the following prerequisites on your machine:
 | ------- | ----------------- |
 | Download Latest Include Entities | Comma separated list of entities to use as includeEntities parameter in Download Latest command |
 | Download Latest Exclude Entities | Comma separated list of entities to use as excludeEntities parameter in Download Latest command |
+| Download Latest Model Version | Allows to specify version of the model to download (1 or 2). If not specified, the version 1 will be downloaded |
+| Download Portal Skip Included Entities | Allows you to skip Included Entities option in the Download Portal command |
+| Download Portal Skip Excluded Entities | Allows you to skip Excluded Entities option in the Download Portal command |
+
 
 ## Features
 
@@ -90,6 +95,20 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 ## Release Notes
 
+### 1.4.0
+
+#### Changed
+
+- Renamed extension to Power Pages Helper
+- Switch paportal to powerpages in CLI commands
+- Now "Download Portal" supports modedVersion parameter
+
+#### Added
+
+- New command Migrate to Bootstrap 5 - converts existing portal to Bootstrap 5 (creates new folder with updated portal)
+- New setting Download Latest Model Version - Allows to specify version of the model to download (1 or 2) to support Enhanced Data Model
+- New setting Download Portal Skip Included Entities - Allows you to skip Included Entities option in the Download Portal command
+- New setting Download Portal Skip Excluded Entities - Allows you to skip Excluded Entities option in the Download Portal command
 ### 1.3.0
 
 #### Changed
