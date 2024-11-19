@@ -2,6 +2,12 @@
 
 All notable changes to the Power Pages Helper extension will be documented in this file.
 
+## [1.4.1]
+
+### Changed
+
+- Switch powerpages to pages in CLI commands
+
 ## [1.4.0]
 
 ### Changed

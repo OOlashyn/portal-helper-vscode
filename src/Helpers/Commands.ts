@@ -1,6 +1,6 @@
 export class Commands {
     public static PortalList() {
-        return 'pac powerpages list';
+        return 'pac pages list';
     }
 
     public static DownloadPortal(localPath: string, websiteId: string, overwritePortal: string | undefined, 
@@ -9,18 +9,18 @@ export class Commands {
         const includeEntities = includedEntities ? `-ie "${includedEntities}"`: '';
         const excludeEntities = excludedEntities ? `-xe "${excludedEntities}"`: '';
         const mVersion = modelVersion ? `-mv "${modelVersion}"`: '';
-        return `pac powerpages download -p "${localPath}" -id ${websiteId} ${overwriteText} ${includeEntities} ${excludeEntities} ${mVersion}`;
+        return `pac pages download -p "${localPath}" -id ${websiteId} ${overwriteText} ${includeEntities} ${excludeEntities} ${mVersion}`;
     }
 
     public static UploadPortal(localPath: string, deploymentProfile: string | undefined) {
         const command = deploymentProfile
-            ? `pac powerpages upload -p "${localPath}" --deploymentProfile "${deploymentProfile}"`
-            : `pac powerpages upload -p "${localPath}"`;
+            ? `pac pages upload -p "${localPath}" --deploymentProfile "${deploymentProfile}"`
+            : `pac pages upload -p "${localPath}"`;
         return command;
     }
 
     public static BootstrapMigrate(localPath: string){
-        return `pac powerpages bootstrap-migrate -p "${localPath}"`;
+        return `pac pages bootstrap-migrate -p "${localPath}"`;
     }
 
     public static AuthList() {
