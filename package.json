@@ -3,7 +3,7 @@
 	"displayName": "Power Pages Helper",
 	"description": "Set of commands to simplify work with Power Platform CLI for Power Pages/Power Apps Portals",
 	"publisher": "oleksandr-olashyn",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"engines": {
 		"vscode": "^1.55.0"
 	},

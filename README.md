@@ -95,6 +95,12 @@ Calling out known issues can help limit users opening duplicate issues against y
 
 ## Release Notes
 
+### 1.4.1
+
+#### Changed
+
+- Switch powerpages to pages in CLI commands
+
 ### 1.4.0
 
 #### Changed
