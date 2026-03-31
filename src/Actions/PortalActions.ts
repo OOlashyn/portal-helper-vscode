@@ -467,6 +467,10 @@ export class PortalActions {
 
     const mode = await vscode.window.showQuickPick(modeItems, modeOptions);
 
+    if (!mode) {
+      return;
+    }
+
     const updateItems: string[] = ["Yes", "No"];
     const updateOptions: vscode.QuickPickOptions = {
       canPickMany: false,
