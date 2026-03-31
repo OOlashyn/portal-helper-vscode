@@ -23,6 +23,28 @@ export class Commands {
         return `pac pages bootstrap-migrate -p "${localPath}"`;
     }
 
+    public static DownloadCodeSite(localPath: string, websiteId: string, overwrite?: boolean) {
+        const overwriteText = overwrite ? `-o` : '';
+        return `pac pages download-code-site -p "${localPath}" -id ${websiteId} ${overwriteText}`.trim();
+    }
+
+    public static UploadCodeSite(rootPath: string, compiledPath?: string, siteName?: string) {
+        const compiled = compiledPath ? `-cp "${compiledPath}"` : '';
+        const name = siteName ? `-sn "${siteName}"` : '';
+        return `pac pages upload-code-site -rp "${rootPath}" ${compiled} ${name}`.trim().replace(/\s+/g, ' ');
+    }
+
+    public static MigrateDatamodel(websiteId: string, checkStatus?: boolean, mode?: string,
+        updateVersion?: boolean, reset?: boolean, revert?: boolean) {
+        const check = checkStatus ? `-s` : '';
+        const modeText = mode ? `-m "${mode}"` : '';
+        const update = updateVersion ? `-u` : '';
+        const resetText = reset ? `-rs` : '';
+        const revertText = revert ? `-r` : '';
+        return `pac pages migrate-datamodel -id ${websiteId} ${check} ${modeText} ${update} ${resetText} ${revertText}`
+            .trim().replace(/\s+/g, ' ');
+    }
+
     public static AuthList() {
         return 'pac auth list';
     }

@@ -89,6 +89,24 @@ export function activate(context: vscode.ExtensionContext) {
 			portalActions.CreateDeploymentProfile();
 		})
 	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.downloadCodeSite', () => {
+			portalActions.DownloadCodeSite();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.uploadCodeSite', () => {
+			portalActions.UploadCodeSite();
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.migrateDatamodel', () => {
+			portalActions.MigrateDatamodel();
+		})
+	);
 }
 
 // this method is called when your extension is deactivated
