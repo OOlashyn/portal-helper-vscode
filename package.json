@@ -98,6 +98,21 @@
 				"command": "portal-helper-vscode.CreateDeploymentProfile",
 				"category": "Portal Helper",
 				"title": "Create Deployment Profile"
+			},
+			{
+				"command": "portal-helper-vscode.downloadCodeSite",
+				"category": "Portal Helper",
+				"title": "Download Code Site"
+			},
+			{
+				"command": "portal-helper-vscode.uploadCodeSite",
+				"category": "Portal Helper",
+				"title": "Upload Code Site"
+			},
+			{
+				"command": "portal-helper-vscode.migrateDatamodel",
+				"category": "Portal Helper",
+				"title": "Migrate Data Model"
 			}
 		],
 		"menus": {

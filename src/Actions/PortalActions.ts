@@ -327,6 +327,162 @@ export class PortalActions {
     Terminal.RunCommand(Commands.BootstrapMigrate(localPortalPath));
   }
 
+  public async DownloadCodeSite() {
+    vscode.window.showInformationMessage("Portal Helper: Download Code Site");
+
+    const localPathOptions: vscode.InputBoxOptions = {
+      prompt: "Enter local path where the code site will be downloaded or c for current folder",
+      placeHolder: "Local path C:\\Code\\Sites",
+    };
+
+    let localPath = await vscode.window.showInputBox(localPathOptions);
+
+    if (!localPath) {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide a local path for the code site to be downloaded into"
+      );
+      return;
+    }
+
+    if (localPath === "c" && vscode.workspace.workspaceFolders) {
+      localPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    }
+
+    const websiteIdOptions: vscode.InputBoxOptions = {
+      prompt: "Provide Id of the code site to download",
+      placeHolder: "Id like 00000000-0000-0000-0000-000000000000",
+    };
+
+    const websiteId = await vscode.window.showInputBox(websiteIdOptions);
+
+    if (!websiteId) {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide the website ID"
+      );
+      return;
+    }
+
+    const overwriteItems: string[] = ["Yes", "No"];
+    const overwriteOptions: vscode.QuickPickOptions = {
+      canPickMany: false,
+      placeHolder: "Overwrite existing content? (optional)",
+    };
+
+    const overwritePick = await vscode.window.showQuickPick(overwriteItems, overwriteOptions);
+    const overwrite = overwritePick === "Yes";
+
+    Terminal.RunCommand(Commands.DownloadCodeSite(localPath, websiteId, overwrite));
+  }
+
+  public async UploadCodeSite() {
+    vscode.window.showInformationMessage("Portal Helper: Upload Code Site");
+
+    const rootPathOptions: vscode.InputBoxOptions = {
+      prompt: "Enter root source folder path or c for current folder",
+      placeHolder: "Local path C:\\Code\\my-site",
+    };
+
+    let rootPath = await vscode.window.showInputBox(rootPathOptions);
+
+    if (!rootPath) {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide the root path for the code site"
+      );
+      return;
+    }
+
+    if (rootPath === "c" && vscode.workspace.workspaceFolders) {
+      rootPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    }
+
+    const compiledPathOptions: vscode.InputBoxOptions = {
+      prompt: "Enter path to compiled/build output (optional, press Enter to skip)",
+      placeHolder: "C:\\Code\\my-site\\build",
+    };
+
+    const compiledPathInput = await vscode.window.showInputBox(compiledPathOptions);
+    const compiledPath = compiledPathInput || undefined;
+
+    const siteNameOptions: vscode.InputBoxOptions = {
+      prompt: "Enter display name for the site (optional, press Enter to skip)",
+      placeHolder: "My Power Pages Site",
+    };
+
+    const siteNameInput = await vscode.window.showInputBox(siteNameOptions);
+    const siteName = siteNameInput || undefined;
+
+    Terminal.RunCommand(Commands.UploadCodeSite(rootPath, compiledPath, siteName));
+  }
+
+  public async MigrateDatamodel() {
+    vscode.window.showInformationMessage("Portal Helper: Migrate Data Model");
+
+    const actionItems: string[] = ["Migrate", "Check Status", "Reset Migration", "Revert to Standard Data Model"];
+    const actionOptions: vscode.QuickPickOptions = {
+      canPickMany: false,
+      placeHolder: "Select action to perform",
+    };
+
+    const action = await vscode.window.showQuickPick(actionItems, actionOptions);
+
+    if (!action) {
+      return;
+    }
+
+    const websiteIdOptions: vscode.InputBoxOptions = {
+      prompt: "Provide the website ID",
+      placeHolder: "Id like 00000000-0000-0000-0000-000000000000",
+    };
+
+    const websiteId = await vscode.window.showInputBox(websiteIdOptions);
+
+    if (!websiteId) {
+      vscode.window.showErrorMessage(
+        "Portal Helper: You need to provide the website ID"
+      );
+      return;
+    }
+
+    if (action === "Check Status") {
+      Terminal.RunCommand(Commands.MigrateDatamodel(websiteId, true));
+      return;
+    }
+
+    if (action === "Reset Migration") {
+      Terminal.RunCommand(Commands.MigrateDatamodel(websiteId, false, undefined, false, true));
+      return;
+    }
+
+    if (action === "Revert to Standard Data Model") {
+      Terminal.RunCommand(Commands.MigrateDatamodel(websiteId, false, undefined, false, false, true));
+      return;
+    }
+
+    // Migrate action
+    const modeItems: string[] = ["all", "configurationData", "configurationDataReferences"];
+    const modeOptions: vscode.QuickPickOptions = {
+      canPickMany: false,
+      placeHolder: "Select migration mode",
+    };
+
+    const mode = await vscode.window.showQuickPick(modeItems, modeOptions);
+
+    if (!mode) {
+      return;
+    }
+
+    const updateItems: string[] = ["Yes", "No"];
+    const updateOptions: vscode.QuickPickOptions = {
+      canPickMany: false,
+      placeHolder: "Update data model version after successful migration?",
+    };
+
+    const updatePick = await vscode.window.showQuickPick(updateItems, updateOptions);
+    const updateVersion = updatePick === "Yes";
+
+    Terminal.RunCommand(Commands.MigrateDatamodel(websiteId, false, mode, updateVersion));
+  }
+
   public async CreateCustomJS(selectedUri: vscode.Uri) {
     vscode.window.showInformationMessage("Portal Helper: Create Custom JS");
 
