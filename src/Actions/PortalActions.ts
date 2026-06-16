@@ -112,18 +112,17 @@ export class PortalActions {
       }
     }
 
-    const modelVersionItems: string[] = ["1", "2"];
+    const modelVersionItems: string[] = ["2", "1"];
 
     const modelVersionOptions: vscode.QuickPickOptions = {
       canPickMany: false,
-      placeHolder:
-        "Select version 2 if you are using Enhanced Data Model (optional)",
+      placeHolder: "Select model version (default: 2 - Enhanced Data Model)",
     };
 
     const modelVersionPortal = await vscode.window.showQuickPick(
       modelVersionItems,
       modelVersionOptions
-    );
+    ) ?? "2";
 
     const overwriteOptionsItems: string[] = ["Yes", "No"];
 
