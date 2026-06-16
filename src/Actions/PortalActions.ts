@@ -155,10 +155,17 @@ export class PortalActions {
     );
 
     if (vscode.workspace.workspaceFolders) {
-      const filePath = vscode.Uri.joinPath(
-        vscode.workspace.workspaceFolders[0].uri,
-        "website.yml"
-      );
+      const workspaceUri = vscode.workspace.workspaceFolders[0].uri;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(workspaceUri);
+
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          `Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory`
+        );
+        return;
+      }
+
+      const filePath = vscode.Uri.joinPath(portalRoot, "website.yml");
 
       let webSiteDocument;
 
@@ -176,13 +183,11 @@ export class PortalActions {
 
         const webSiteInfo = yaml.load(webSiteInfoText) as IPAWebsite;
 
-        const { parentFolderPath } = VSCodeHelper.GetFileAndFolderFromURI(
-          vscode.workspace.workspaceFolders[0].uri
-        );
+        const downloadPath = vscode.Uri.joinPath(portalRoot, "..").fsPath;
 
         Terminal.RunCommand(
           Commands.DownloadPortal(
-            parentFolderPath,
+            downloadPath,
             webSiteInfo.adx_websiteid,
             "Yes",
             vscode.workspace
@@ -229,13 +234,24 @@ export class PortalActions {
     }
 
     if (localPortalPath === "c" && vscode.workspace.workspaceFolders) {
-      localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(
+        vscode.workspace.workspaceFolders[0].uri
+      );
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          "Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory"
+        );
+        return;
+      }
+      localPortalPath = portalRoot.fsPath;
     } else {
       vscode.window.showErrorMessage(
         "Portal Helper: You need to provide local path for Portal to be uploaded from"
       );
       return;
     }
+
+    const portalRootUri = vscode.Uri.file(localPortalPath);
 
     let deploymentProfile: string | undefined = undefined;
 
@@ -249,7 +265,7 @@ export class PortalActions {
 
       if (vscode.workspace.workspaceFolders) {
         const deploymentProfilesUri = vscode.Uri.joinPath(
-          vscode.workspace.workspaceFolders[0].uri,
+          portalRootUri,
           "deployment-profiles"
         );
 
@@ -316,7 +332,16 @@ export class PortalActions {
     }
 
     if (localPortalPath === "c" && vscode.workspace.workspaceFolders) {
-      localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(
+        vscode.workspace.workspaceFolders[0].uri
+      );
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          "Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory"
+        );
+        return;
+      }
+      localPortalPath = portalRoot.fsPath;
     } else {
       vscode.window.showErrorMessage(
         "Portal Helper: You need to provide local path for Portal to be migrated from"
@@ -361,8 +386,18 @@ export class PortalActions {
     }
 
     if (vscode.workspace.workspaceFolders) {
+      const workspaceUri = vscode.workspace.workspaceFolders[0].uri;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(workspaceUri);
+
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          "Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory"
+        );
+        return;
+      }
+
       const deploymentProfilesFolderUri = vscode.Uri.joinPath(
-        vscode.workspace.workspaceFolders[0].uri,
+        portalRoot,
         "deployment-profiles"
       );
 

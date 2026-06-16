@@ -57,4 +57,27 @@ export class VSCodeHelper {
 
         return result;
     }
+
+    public static async GetPortalRoot(workspaceUri: vscode.Uri): Promise<vscode.Uri | undefined> {
+        // Old model: workspace root IS the portal folder
+        if (await VSCodeHelper.Exists(vscode.Uri.joinPath(workspaceUri, 'website.yml'))) {
+            return workspaceUri;
+        }
+        // New model: portal is an immediate subdirectory
+        let entries: [string, vscode.FileType][];
+        try {
+            entries = await vscode.workspace.fs.readDirectory(workspaceUri);
+        } catch {
+            return undefined;
+        }
+        for (const [name, type] of entries) {
+            if (type === vscode.FileType.Directory) {
+                const subdirUri = vscode.Uri.joinPath(workspaceUri, name);
+                if (await VSCodeHelper.Exists(vscode.Uri.joinPath(subdirUri, 'website.yml'))) {
+                    return subdirUri;
+                }
+            }
+        }
+        return undefined;
+    }
 }
