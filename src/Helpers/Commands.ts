@@ -12,10 +12,11 @@ export class Commands {
         return `pac pages download -p "${localPath}" -id ${websiteId} ${overwriteText} ${includeEntities} ${excludeEntities} ${mVersion}`;
     }
 
-    public static UploadPortal(localPath: string, deploymentProfile: string | undefined) {
+    public static UploadPortal(localPath: string, deploymentProfile: string | undefined, modelVersion?: string) {
+        const mvFlag = modelVersion ? ` -mv "${modelVersion}"` : '';
         const command = deploymentProfile
-            ? `pac pages upload -p "${localPath}" --deploymentProfile "${deploymentProfile}"`
-            : `pac pages upload -p "${localPath}"`;
+            ? `pac pages upload -p "${localPath}" --deploymentProfile "${deploymentProfile}"${mvFlag}`
+            : `pac pages upload -p "${localPath}"${mvFlag}`;
         return command;
     }
 

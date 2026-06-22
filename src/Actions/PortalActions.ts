@@ -112,18 +112,17 @@ export class PortalActions {
       }
     }
 
-    const modelVersionItems: string[] = ["1", "2"];
+    const modelVersionItems: string[] = ["2", "1"];
 
     const modelVersionOptions: vscode.QuickPickOptions = {
       canPickMany: false,
-      placeHolder:
-        "Select version 2 if you are using Enhanced Data Model (optional)",
+      placeHolder: "Select model version (default: 2 - Enhanced Data Model)",
     };
 
     const modelVersionPortal = await vscode.window.showQuickPick(
       modelVersionItems,
       modelVersionOptions
-    );
+    ) ?? "2";
 
     const overwriteOptionsItems: string[] = ["Yes", "No"];
 
@@ -155,10 +154,17 @@ export class PortalActions {
     );
 
     if (vscode.workspace.workspaceFolders) {
-      const filePath = vscode.Uri.joinPath(
-        vscode.workspace.workspaceFolders[0].uri,
-        "website.yml"
-      );
+      const workspaceUri = vscode.workspace.workspaceFolders[0].uri;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(workspaceUri);
+
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          `Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory`
+        );
+        return;
+      }
+
+      const filePath = vscode.Uri.joinPath(portalRoot, "website.yml");
 
       let webSiteDocument;
 
@@ -176,13 +182,11 @@ export class PortalActions {
 
         const webSiteInfo = yaml.load(webSiteInfoText) as IPAWebsite;
 
-        const { parentFolderPath } = VSCodeHelper.GetFileAndFolderFromURI(
-          vscode.workspace.workspaceFolders[0].uri
-        );
+        const downloadPath = vscode.Uri.joinPath(portalRoot, "..").fsPath;
 
         Terminal.RunCommand(
           Commands.DownloadPortal(
-            parentFolderPath,
+            downloadPath,
             webSiteInfo.adx_websiteid,
             "Yes",
             vscode.workspace
@@ -229,13 +233,24 @@ export class PortalActions {
     }
 
     if (localPortalPath === "c" && vscode.workspace.workspaceFolders) {
-      localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(
+        vscode.workspace.workspaceFolders[0].uri
+      );
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          "Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory"
+        );
+        return;
+      }
+      localPortalPath = portalRoot.fsPath;
     } else {
       vscode.window.showErrorMessage(
         "Portal Helper: You need to provide local path for Portal to be uploaded from"
       );
       return;
     }
+
+    const portalRootUri = vscode.Uri.file(localPortalPath);
 
     let deploymentProfile: string | undefined = undefined;
 
@@ -249,7 +264,7 @@ export class PortalActions {
 
       if (vscode.workspace.workspaceFolders) {
         const deploymentProfilesUri = vscode.Uri.joinPath(
-          vscode.workspace.workspaceFolders[0].uri,
+          portalRootUri,
           "deployment-profiles"
         );
 
@@ -290,8 +305,51 @@ export class PortalActions {
       }
     }
 
+    let modelVersion: string;
+    if (currentPortal) {
+      modelVersion =
+        vscode.workspace
+          .getConfiguration("portalHelper.downloadLatest")
+          .get<string>("modelVersion") ?? "2";
+    } else {
+      const modelVersionItems: string[] = ["2", "1"];
+      const modelVersionOptions: vscode.QuickPickOptions = {
+        canPickMany: false,
+        placeHolder: "Select model version (default: 2 - Enhanced Data Model)",
+      };
+      modelVersion =
+        (await vscode.window.showQuickPick(
+          modelVersionItems,
+          modelVersionOptions
+        )) ?? "2";
+    }
+
     Terminal.RunCommand(
-      Commands.UploadPortal(localPortalPath, deploymentProfile)
+      Commands.UploadPortal(localPortalPath, deploymentProfile, modelVersion)
+    );
+  }
+
+  public async SetUploadModelVersion() {
+    const items: vscode.QuickPickItem[] = [
+      { label: "2", description: "Enhanced Data Model (recommended)" },
+      { label: "1", description: "Standard Data Model" },
+    ];
+
+    const selected = await vscode.window.showQuickPick(items, {
+      canPickMany: false,
+      placeHolder: "Select model version (applies to Download Latest and Upload Current)",
+    });
+
+    if (!selected) {
+      return;
+    }
+
+    await vscode.workspace
+      .getConfiguration("portalHelper.downloadLatest")
+      .update("modelVersion", selected.label, vscode.ConfigurationTarget.Workspace);
+
+    vscode.window.showInformationMessage(
+      `Portal Helper: Model version set to ${selected.label}`
     );
   }
 
@@ -316,7 +374,16 @@ export class PortalActions {
     }
 
     if (localPortalPath === "c" && vscode.workspace.workspaceFolders) {
-      localPortalPath = vscode.workspace.workspaceFolders[0].uri.fsPath;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(
+        vscode.workspace.workspaceFolders[0].uri
+      );
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          "Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory"
+        );
+        return;
+      }
+      localPortalPath = portalRoot.fsPath;
     } else {
       vscode.window.showErrorMessage(
         "Portal Helper: You need to provide local path for Portal to be migrated from"
@@ -361,8 +428,18 @@ export class PortalActions {
     }
 
     if (vscode.workspace.workspaceFolders) {
+      const workspaceUri = vscode.workspace.workspaceFolders[0].uri;
+      const portalRoot = await VSCodeHelper.GetPortalRoot(workspaceUri);
+
+      if (!portalRoot) {
+        vscode.window.showErrorMessage(
+          "Portal Helper: website.yml wasn't found in the workspace or any immediate subdirectory"
+        );
+        return;
+      }
+
       const deploymentProfilesFolderUri = vscode.Uri.joinPath(
-        vscode.workspace.workspaceFolders[0].uri,
+        portalRoot,
         "deployment-profiles"
       );
 
