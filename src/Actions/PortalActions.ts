@@ -305,8 +305,51 @@ export class PortalActions {
       }
     }
 
+    let modelVersion: string;
+    if (currentPortal) {
+      modelVersion =
+        vscode.workspace
+          .getConfiguration("portalHelper.uploadCurrent")
+          .get<string>("modelVersion") ?? "2";
+    } else {
+      const modelVersionItems: string[] = ["2", "1"];
+      const modelVersionOptions: vscode.QuickPickOptions = {
+        canPickMany: false,
+        placeHolder: "Select model version (default: 2 - Enhanced Data Model)",
+      };
+      modelVersion =
+        (await vscode.window.showQuickPick(
+          modelVersionItems,
+          modelVersionOptions
+        )) ?? "2";
+    }
+
     Terminal.RunCommand(
-      Commands.UploadPortal(localPortalPath, deploymentProfile)
+      Commands.UploadPortal(localPortalPath, deploymentProfile, modelVersion)
+    );
+  }
+
+  public async SetUploadModelVersion() {
+    const items: vscode.QuickPickItem[] = [
+      { label: "2", description: "Enhanced Data Model (recommended)" },
+      { label: "1", description: "Standard Data Model" },
+    ];
+
+    const selected = await vscode.window.showQuickPick(items, {
+      canPickMany: false,
+      placeHolder: "Select model version for Upload Current Portal",
+    });
+
+    if (!selected) {
+      return;
+    }
+
+    await vscode.workspace
+      .getConfiguration("portalHelper.uploadCurrent")
+      .update("modelVersion", selected.label, vscode.ConfigurationTarget.Workspace);
+
+    vscode.window.showInformationMessage(
+      `Portal Helper: Upload Current model version set to ${selected.label}`
     );
   }
 

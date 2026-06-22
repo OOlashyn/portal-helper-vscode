@@ -89,6 +89,12 @@ export function activate(context: vscode.ExtensionContext) {
 			portalActions.CreateDeploymentProfile();
 		})
 	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('portal-helper-vscode.setUploadModelVersion', () => {
+			portalActions.SetUploadModelVersion();
+		})
+	);
 }
 
 // this method is called when your extension is deactivated
