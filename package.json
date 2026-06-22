@@ -3,7 +3,7 @@
 	"displayName": "Power Pages Helper",
 	"description": "Set of commands to simplify work with Power Platform CLI for Power Pages/Power Apps Portals",
 	"publisher": "oleksandr-olashyn",
-	"version": "1.4.1",
+	"version": "1.5.0",
 	"engines": {
 		"vscode": "^1.55.0"
 	},
@@ -102,7 +102,7 @@
 			{
 				"command": "portal-helper-vscode.setUploadModelVersion",
 				"category": "Portal Helper",
-				"title": "Set Upload Current Model Version"
+				"title": "Set Model Version"
 			}
 		],
 		"menus": {
@@ -176,17 +176,12 @@
 					"portalHelper.downloadLatest.modelVersion": {
 						"type": "string",
 						"default": "2",
-						"description": "Specify version of the model to download (1 or 2). Defaults to 2 (Enhanced Data Model)"
-					},
-					"portalHelper.uploadCurrent.modelVersion": {
-						"type": "string",
-						"default": "2",
 						"enum": ["2", "1"],
 						"enumDescriptions": [
 							"Enhanced Data Model (recommended)",
 							"Standard Data Model"
 						],
-						"description": "Specify version of the model to upload. Defaults to 2 (Enhanced Data Model). Used by the Upload Current Portal command."
+						"description": "Specify version of the model to use (1 or 2). Defaults to 2 (Enhanced Data Model). Used by Download Latest and Upload Current Portal commands."
 					}
 				}
 			}

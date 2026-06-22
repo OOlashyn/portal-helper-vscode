@@ -309,7 +309,7 @@ export class PortalActions {
     if (currentPortal) {
       modelVersion =
         vscode.workspace
-          .getConfiguration("portalHelper.uploadCurrent")
+          .getConfiguration("portalHelper.downloadLatest")
           .get<string>("modelVersion") ?? "2";
     } else {
       const modelVersionItems: string[] = ["2", "1"];
@@ -337,7 +337,7 @@ export class PortalActions {
 
     const selected = await vscode.window.showQuickPick(items, {
       canPickMany: false,
-      placeHolder: "Select model version for Upload Current Portal",
+      placeHolder: "Select model version (applies to Download Latest and Upload Current)",
     });
 
     if (!selected) {
@@ -345,11 +345,11 @@ export class PortalActions {
     }
 
     await vscode.workspace
-      .getConfiguration("portalHelper.uploadCurrent")
+      .getConfiguration("portalHelper.downloadLatest")
       .update("modelVersion", selected.label, vscode.ConfigurationTarget.Workspace);
 
     vscode.window.showInformationMessage(
-      `Portal Helper: Upload Current model version set to ${selected.label}`
+      `Portal Helper: Model version set to ${selected.label}`
     );
   }
 

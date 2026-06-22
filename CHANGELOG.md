@@ -2,6 +2,19 @@
 
 All notable changes to the Power Pages Helper extension will be documented in this file.
 
+## [1.5.0]
+
+### Changed
+
+- Changed default data model to be Enhanced Data Model (mv 2) in all commands
+- Changed the website.yml discovery - now commands works from the parent folder as well
+- Model version setting `portalHelper.downloadLatest.modelVersion` is now used by both Download Latest and Upload Current Portal commands
+
+### Added
+
+- Upload Portal command now prompts for model version (default: 2 - Enhanced Data Model)
+- New Set Model Version command - to help simplify setting model version in workspace settings, relevant for Standard Data Model portals
+
 ## [1.4.1]
 
 ### Changed
